@@ -1,0 +1,534 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="JSPatch是啥JSPatch是一个实现了用JS调用/替换OC方法乃至类来实现hotfix的开源项目。
+JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/替换OC方法乃至类，上面说JSpatch是用JS调用/替换OC方法，而没有提到swift。因为swift默认取消了OC的动态性，所以暂时还没swift什么事儿。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSPatch调用/替换OC方法的原理">
+<meta property="og:url" content="http://yoursite.com/2016/04/03/JSPatch/index.html">
+<meta property="og:site_name" content="多喝热水">
+<meta property="og:description" content="JSPatch是啥JSPatch是一个实现了用JS调用/替换OC方法乃至类来实现hotfix的开源项目。
+JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/替换OC方法乃至类，上面说JSpatch是用JS调用/替换OC方法，而没有提到swift。因为swift默认取消了OC的动态性，所以暂时还没swift什么事儿。">
+<meta property="og:updated_time" content="2016-04-09T01:35:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSPatch调用/替换OC方法的原理">
+<meta name="twitter:description" content="JSPatch是啥JSPatch是一个实现了用JS调用/替换OC方法乃至类来实现hotfix的开源项目。
+JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/替换OC方法乃至类，上面说JSpatch是用JS调用/替换OC方法，而没有提到swift。因为swift默认取消了OC的动态性，所以暂时还没swift什么事儿。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> JSPatch调用/替换OC方法的原理 | 多喝热水 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5f9ded3569ca6449d479fe1a98d5b654";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">多喝热水</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">念念不忘，必有回响</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JSPatch调用/替换OC方法的原理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-03T20:04:38+08:00" content="2016-04-03">
+              2016-04-03
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="JSPatch是啥"><a href="#JSPatch是啥" class="headerlink" title="JSPatch是啥"></a>JSPatch是啥</h3><p>JSPatch是一个实现了用JS调用/替换OC方法乃至类来实现hotfix的开源项目。</p>
+<p>JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/替换OC方法乃至类，上面说JSpatch是用JS调用/替换OC方法，而没有提到swift。因为swift默认取消了OC的动态性，所以暂时还没swift什么事儿。</p>
+<a id="more"></a>
+<h3 id="调用方法"><a href="#调用方法" class="headerlink" title="调用方法"></a>调用方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">require(&apos;Bug&apos;)</span><br><span class="line">var june = Bug.alloc().init()</span><br><span class="line">june.setAge(16)</span><br><span class="line">june.setGirlFriend(require(&apos;Hand&apos;).rightHand())</span><br></pre></td></tr></table></figure>
+<p>上述JS代码创建了一个june然后调了setAge和setGirlFriend方法</p>
+<p><code>require(&#39;XXX&#39;)</code>:<br>在JS全局作用域上创建一个同名变量<code>XXX</code>，变量指向一个对象，对象有两个属性：</p>
+<ol>
+<li><code>__isCls</code>存一个布尔值</li>
+<li><code>__clsName</code>保存类名</li>
+</ol>
+<p>然后就出现第一个问题了：这个<code>XXX</code>变量指向的对象只有<code>__isCls</code>和<code>__clsName</code>，所以<code>Bug</code>不认识<code>alloc().init()</code>,<code>Hand</code>不认识<code>rightHand()</code>，这样子直接就抛异常了。</p>
+<p>不可行的解决方案：把require的类名传入OC，通过runtime找到这个类的所有方法，包括他爸爸他爷爷直到基类的全部方法，在JS这边为每个方法生成同名函数，函数内容是根据方法名再去OC调对应的方法。嗯，人家族谱上指不定有几千个方法，运气不好require了几个大家伙，内存就炸了。</p>
+<p>解决方案：执行JS脚本之前，先用正则表达式处理一下，把方法调用改成调用<code>__c()</code>函数，方法名作为<code>__c()</code>函数里的参数，在<code>__c()</code>里面把信息传给oc再调runtime的相应方法去执行并返回结果值。这样子只需要给JS对象的基类加一个<code>__c</code>就可以了。</p>
+<p>然后是第二个问题：<code>Bug</code>有<code>__isCls</code>可以证明身份然后知道类名方法名去<code>__c()</code>完成调用，那这个<code>june</code>怎么办？</p>
+<p>解决方案：这个对象OC是认识的，创建完后传给JS之前要先包装一下，做个一个<code>NSDictionary</code>再传回去给JS，一个<code>id obj</code>变成一个<code>{&quot;__obj&quot;:obj}</code>，然后执行的时候传给__c的时候就知道他是个实例对象了。</p>
+<p>现在已经把JS要干的事情传给OC了，OC这边就把JS传过来的东西转成要求的类型然后通过NSInvocation调用相应的方法再把返回值包装成对象传回给JS，调用方法这件事情的流程大概就这样了</p>
+<h3 id="替换方法"><a href="#替换方法" class="headerlink" title="替换方法"></a>替换方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">defineClass(&quot;Bug&quot;,&#123;</span><br><span class="line">	BugGroup_solveProblem:function(bugGroup,aProblem)&#123;</span><br><span class="line">		......</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>上述JS代码替换了类Bug中的<code>BugGroup:(BugGroup *)bugGroup solveProblem:(Problem *)aProblem</code>方法的实现</p>
+<p>前置知识：<br>根据Objective-c的消息转发机制，当调用了一个不存在的方法的时候，会逐层调用<code>resolveInstanceMethod</code> <code>forwardingTargetForSelector</code> <code>methodSignatureForSelector</code> <code>forwardInvocation</code> 等方法来进行消息转发，<code>forwardInvocation</code>方法会返回一个NSInvocation对象，保存了这个方法的selector名、参数以及返回值。</p>
+<p>实现原理：</p>
+<ol>
+<li>把要替换的方法指向一个不存在的全局IMP，这样子调用这个方法的时候就会一步一步走到<code>forwardInvocation</code>，通过返回的NSInvocation对象，获取要替换的方法的信息。</li>
+<li>在替换方法的类里增加两个方法<code>originXXX</code>和<code>newXXX</code>，originXXX指向要替换的IMP，newXXX指向我们新增加的实现。留着originXXX是为了让正常转发流程可以进行，只有我们替换的方法才走newXXX。</li>
+<li>重写<code>forwardInvocation</code>方法，在生成这个NSInvocation的时候重新从这个NSInvocation对象中把参数解析出来，把参数传给newXXX调用。这里的其中一种实现方式是用<code>method_swizzling</code>替换解析函数和<code>forwardInvocation</code>，然后在解析函数里调用<code>forwardInvocation</code>，就可以每次转发就获取到这个NSInvocation对象再判断走<code>originXXX</code>和<code>newXXX</code>了。</li>
+</ol>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><a href="https://github.com/bang590/JSPatch" target="_blank" rel="external">Github地址</a><br><a href="https://github.com/bang590/JSPatch/wiki/JSPatch-基础用法" target="_blank" rel="external">基础语法介绍</a><br><a href="http://jspatch.com" target="_blank" rel="external">官网</a></p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/03/method_swizzling/" rel="next" title="低版本系统调用高版本系统API">
+                <i class="fa fa-chevron-left"></i> 低版本系统调用高版本系统API
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/09/TouchID/" rel="prev" title="TouchID多手指录同一个指纹">
+                TouchID多手指录同一个指纹 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/june.jpg"
+               alt="六月虫" />
+          <p class="site-author-name" itemprop="name">六月虫</p>
+          <p class="site-description motion-element" itemprop="description">我的梦中情人，她是一个巨乳萝莉，我知道有一天，她会顶着重感冒、躺在床上打电话给我，我会跟她说：“多喝热水”。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSPatch是啥"><span class="nav-number">1.</span> <span class="nav-text">JSPatch是啥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用方法"><span class="nav-number">2.</span> <span class="nav-text">调用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替换方法"><span class="nav-number">3.</span> <span class="nav-text">替换方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">六月虫</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

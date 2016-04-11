@@ -1,0 +1,517 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="破事水昨晚和贡茶的时候跟Cyseria玩了一件很无聊的事情，录入一个TouchID的时候两个人轮换几根手指，虽然根据屏幕显示的内容，有些部位的指纹录入很多次才成功，但是最后还是成功完成了一个“混合版”的指纹。然后测试，由于这个混合版指纹的存在，两根没录入过的手指都能解锁我的手机。细思极恐。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TouchID多手指录同一个指纹">
+<meta property="og:url" content="http://yoursite.com/2016/04/09/TouchID/index.html">
+<meta property="og:site_name" content="多喝热水">
+<meta property="og:description" content="破事水昨晚和贡茶的时候跟Cyseria玩了一件很无聊的事情，录入一个TouchID的时候两个人轮换几根手指，虽然根据屏幕显示的内容，有些部位的指纹录入很多次才成功，但是最后还是成功完成了一个“混合版”的指纹。然后测试，由于这个混合版指纹的存在，两根没录入过的手指都能解锁我的手机。细思极恐。">
+<meta property="og:updated_time" content="2016-04-11T07:35:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TouchID多手指录同一个指纹">
+<meta name="twitter:description" content="破事水昨晚和贡茶的时候跟Cyseria玩了一件很无聊的事情，录入一个TouchID的时候两个人轮换几根手指，虽然根据屏幕显示的内容，有些部位的指纹录入很多次才成功，但是最后还是成功完成了一个“混合版”的指纹。然后测试，由于这个混合版指纹的存在，两根没录入过的手指都能解锁我的手机。细思极恐。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> TouchID多手指录同一个指纹 | 多喝热水 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5f9ded3569ca6449d479fe1a98d5b654";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">多喝热水</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">念念不忘，必有回响</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TouchID多手指录同一个指纹
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-09T09:19:32+08:00" content="2016-04-09">
+              2016-04-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="破事水"><a href="#破事水" class="headerlink" title="破事水"></a>破事水</h3><p>昨晚和贡茶的时候跟Cyseria玩了一件很无聊的事情，录入一个TouchID的时候两个人轮换几根手指，虽然根据屏幕显示的内容，有些部位的指纹录入很多次才成功，但是最后还是成功完成了一个“混合版”的指纹。然后测试，由于这个混合版指纹的存在，两根没录入过的手指都能解锁我的手机。细思极恐。</p>
+<a id="more"></a>
+<h3 id="TouchID的存储安全"><a href="#TouchID的存储安全" class="headerlink" title="TouchID的存储安全"></a>TouchID的存储安全</h3><p><a href="http://www.apple.com/business/docs/iOS_Security_Guide.pdf" target="_blank" rel="external">iOS Security Guide</a></p>
+<p>Touch ID不存储用户的任何指纹图像，只保存代表指纹的数字字符。CPU中有一块名为Secure Enclave的区域用以专门保护密码和指纹数据。只有Secure Enclave可以访问指纹数据，而且它还把这些数据同处理器和系统隔开，因而这些永远不会被存储在苹果的服务器上，也不会被同步到iCloud或其他地方。除了Touch ID之外，它们不会被匹配到其他指纹库中。</p>
+<p>每个Secure Enclave在制造的过程中都会被分配到一个单独的UID，它不能访问iPhone中的其他系统，甚至苹果本身也不知道这个UID。当手机被启动的时候，一个临时的密钥就会被创建出来，配合手机的UID，用于加密Secure Enclave的内存部分。</p>
+<p>当你48小时内没有用TouchID解锁过手机，或者连续五次指纹识别失败，Secure Enclave就会暂时禁用TouchID，要求你输入锁屏密码。</p>
+<h3 id="TouchID是怎么识别的"><a href="#TouchID是怎么识别的" class="headerlink" title="TouchID是怎么识别的"></a>TouchID是怎么识别的</h3><p>2012年6月，苹果收购了AuthenTec，2013年，AuthenTec就停止了向其它企业授权了，只为苹果提供指纹识别技术。AuthenTec的独门绝技是利用射频传感器直接读取真皮层的指纹，这样不仅能生成更精准的指纹图像，而且不会受到干性皮肤、油性皮肤、皮肤磨损、皮肤结茧甚至轻微脏污的影响。</p>
+<p>皮肤的最外层是死皮层，导电性差，可以认为是绝缘体。在死皮层与真皮层的交界处，就是真皮层发生角质化的地方，这个区域是有水分可以导电的。芯片上的信号生成器在手指和相连的半导体之间施加一个微弱的RF射频信号，导电的钢圈（在Home键周围）将RF射频信号与表皮下的导电层（真皮层的指纹）进行耦合。然后手指和芯片之间的射频场（RF Field）会将皮肤导电层的信号“传递”到像素感应器，每个像素感应器就像微型天线一样获得电压，纹脊部分获得的电压强，纹谷部分获得的电压弱。强弱不同的信号经过进一步的处理，就可以得到指纹图像。</p>
+<p>通常得到的指纹图像是灰度图。接下来将灰度图转化成便于计算机处理的二进制图像，提取指纹的特征。首先，Touch ID芯片会根据3种基本指纹类型（弧形纹、箕形纹或斗形纹）将指纹分类，然后提取指纹纹路中的特征点：包括纹路的起点、终点、分叉点和毛孔的位置等。最后将该手指的特征点数据加密之后保存为数字模版。通过指纹识别进行身份验证的过程就是再次执行以上过程，然后将获得的指纹与已经注册的指纹数据进行比对，以确定是否匹配并解锁 iPhone。</p>
+<h3 id="然后就是瞎猜部分了"><a href="#然后就是瞎猜部分了" class="headerlink" title="然后就是瞎猜部分了"></a>然后就是瞎猜部分了</h3><p>所以两根手指一起录入同一个指纹的时候为什么两个手指都可以解锁呢？</p>
+<ol>
+<li>录入的动画。每次录入TouchID的时候会有个动画效果，屏幕上那根手指的指纹被慢慢填充，让你以为它显示的是你手指的录入程度，然而事实上你手指怎么放它的动画都是从中间开始填充，可以猜测它只是个比进度条高级点的过度动画而已，读指纹特征的时候动画就动一下，读到的数据没有新数据的时候就撤回动画里增加的内容。</li>
+<li>录入的内容。动画每动一次，而且是显示指纹内容增加的时候，属于一次部分数据的录入。然后，一个很严重的问题是，对几次录入的数据是否属于同个手指的检查机制做的不太好。除非你用很奇怪的姿势才会让你重新录入。多次录入的东西保持的数字模版可能只是个类似数组的东西。</li>
+<li>解锁的检测。手指按下来，读到指纹特征数据，然后去数组里找。这样就能解释录一堆手指都能解锁的原因了。</li>
+</ol>
+<p>唔，没有对不同手指的检测，还是让人觉得有点不安。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/03/JSPatch/" rel="next" title="JSPatch调用/替换OC方法的原理">
+                <i class="fa fa-chevron-left"></i> JSPatch调用/替换OC方法的原理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/june.jpg"
+               alt="六月虫" />
+          <p class="site-author-name" itemprop="name">六月虫</p>
+          <p class="site-description motion-element" itemprop="description">我的梦中情人，她是一个巨乳萝莉，我知道有一天，她会顶着重感冒、躺在床上打电话给我，我会跟她说：“多喝热水”。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#破事水"><span class="nav-number">1.</span> <span class="nav-text">破事水</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TouchID的存储安全"><span class="nav-number">2.</span> <span class="nav-text">TouchID的存储安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TouchID是怎么识别的"><span class="nav-number">3.</span> <span class="nav-text">TouchID是怎么识别的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#然后就是瞎猜部分了"><span class="nav-number">4.</span> <span class="nav-text">然后就是瞎猜部分了</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">六月虫</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

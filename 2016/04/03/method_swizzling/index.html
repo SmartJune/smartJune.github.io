@@ -1,0 +1,521 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="这玩意儿是啥作为当时实习的第一个任务，我要替换掉一份代码中的实现侧滑功能的第三方库，然后那时候到处看的时候发现了这玩意儿：JZTableViewRowAction Github地址 推库的介绍文章 官方侧滑API是iOS8引入的，而这个第三方库可以在iOS8之前使用，效果跟原生API的效果一样。然而当时时间并不是很多，而对这个第三方库的源代码中汇编部分的代码也不是很理解，出于安全方面的考虑没有应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="低版本系统调用高版本系统API">
+<meta property="og:url" content="http://yoursite.com/2016/04/03/method_swizzling/index.html">
+<meta property="og:site_name" content="多喝热水">
+<meta property="og:description" content="这玩意儿是啥作为当时实习的第一个任务，我要替换掉一份代码中的实现侧滑功能的第三方库，然后那时候到处看的时候发现了这玩意儿：JZTableViewRowAction Github地址 推库的介绍文章 官方侧滑API是iOS8引入的，而这个第三方库可以在iOS8之前使用，效果跟原生API的效果一样。然而当时时间并不是很多，而对这个第三方库的源代码中汇编部分的代码也不是很理解，出于安全方面的考虑没有应用">
+<meta property="og:updated_time" content="2016-04-09T01:36:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="低版本系统调用高版本系统API">
+<meta name="twitter:description" content="这玩意儿是啥作为当时实习的第一个任务，我要替换掉一份代码中的实现侧滑功能的第三方库，然后那时候到处看的时候发现了这玩意儿：JZTableViewRowAction Github地址 推库的介绍文章 官方侧滑API是iOS8引入的，而这个第三方库可以在iOS8之前使用，效果跟原生API的效果一样。然而当时时间并不是很多，而对这个第三方库的源代码中汇编部分的代码也不是很理解，出于安全方面的考虑没有应用">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 低版本系统调用高版本系统API | 多喝热水 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5f9ded3569ca6449d479fe1a98d5b654";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">多喝热水</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">念念不忘，必有回响</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                低版本系统调用高版本系统API
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-03T20:03:40+08:00" content="2016-04-03">
+              2016-04-03
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="这玩意儿是啥"><a href="#这玩意儿是啥" class="headerlink" title="这玩意儿是啥"></a>这玩意儿是啥</h3><p>作为当时实习的第一个任务，我要替换掉一份代码中的实现侧滑功能的第三方库，然后那时候到处看的时候发现了这玩意儿：JZTableViewRowAction <a href="https://github.com/JazysYu/JZTableViewRowAction" target="_blank" rel="external">Github地址</a> <a href="http://www.tuicool.com/articles/mAZZ7bV" target="_blank" rel="external">推库的介绍文章</a> 官方侧滑API是iOS8引入的，而这个第三方库可以在iOS8之前使用，效果跟原生API的效果一样。然而当时时间并不是很多，而对这个第三方库的源代码中汇编部分的代码也不是很理解，出于安全方面的考虑没有应用到它，后面有空了之后才重新去了解了一下这块东西，因为觉得真的挺有意思的。</p>
+<a id="more"></a>
+<h3 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h3><p>首先，内存一般我们可以简单地分成三块：</p>
+<ol>
+<li>栈。例如简单类型的局部变量就放在栈里</li>
+<li>堆。日常各种NSObject的子类就放在堆里</li>
+<li>数据段。各种静态成员、字符串常量、基本类型常量一类的东西</li>
+</ol>
+<p>然后，这个数据段里还有些好玩的东西：系统里的每个类，在数据段里都有一个对应的键值对，例如，系统有个UIView类，那数据段里会有一个key为<code>OBJC_CLASS$_UIView</code>，value就是UIView了。这还没什么意思，有意思的事情是当某个类还没出现的时候，这个key也已经存在了，例如iOS7里有<code>UITableViewRowAction</code>的key，这也是<code>JZTableViewRowAction</code>实现的前提，因为暂时没办法搞到iOS5 iOS6的版本，也没法确定在更老的版本苹果有没有已经为这些未来出现的类占好位置了，所以这个也没办法做验证。<a href="https://gist.github.com/OliverLetterer/4643294" target="_blank" rel="external">键值对部分参考这个</a> 然后我们编译的版本必须是要有这个系统类的版本，例如这个<code>JZTableViewRowAction</code>，可以跑在iOS8之前的版本上提供侧滑，但是编译的时候要是iOS8以上，不然编译的时候系统都不认识<code>UITableViewRowAction</code>是谁。</p>
+<p>参照runtime动态添加类的方法说明<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@return The new class, or Nil if the class could not be created </span><br><span class="line">(for example, the desired name is already in use)</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>当键存在值不存在的时候，用runtime创建类是可以实现的，所以在低版本系统可以创建一个高版本系统的系统类出来</li>
+<li>当键值都存在的时候，也就是当前版本的系统已经有这个系统类了，那用runtime创建类会直接返回一个nil。</li>
+</ol>
+<h3 id="当初看不懂的玩意儿"><a href="#当初看不懂的玩意儿" class="headerlink" title="当初看不懂的玩意儿"></a>当初看不懂的玩意儿</h3><p>唔，对不起王琴姐姐，当年没有好好学汇编。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">__asm(</span><br><span class="line">      &quot;.section        __DATA,__objc_classrefs,regular,no_dead_strip\n&quot;</span><br><span class="line">#if	TARGET_RT_64_BIT</span><br><span class="line">      &quot;.align          3\n&quot;</span><br><span class="line">      &quot;L_OBJC_CLASS_UITableViewRowAction:\n&quot;</span><br><span class="line">      &quot;.quad           _OBJC_CLASS_$_UITableViewRowAction\n&quot;</span><br><span class="line">#else</span><br><span class="line">      &quot;.align          2\n&quot;</span><br><span class="line">      &quot;_OBJC_CLASS_UITableViewRowAction:\n&quot;</span><br><span class="line">      &quot;.long           _OBJC_CLASS_$_UITableViewRowAction\n&quot;</span><br><span class="line">#endif</span><br><span class="line">      &quot;.weak_reference _OBJC_CLASS_$_UITableViewRowAction\n&quot;</span><br><span class="line">      );</span><br></pre></td></tr></table></figure>
+<p>第一段，大概内容是在数据段里找到<code>OBJC_CLASS_$_UITableViewRowAction</code>标签然后用<code>.quad</code> <code>.long</code>声明的东西来存储它，取名为<code>_OBJC_CLASS_$_UITableViewRowAction</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">__attribute__((constructor)) static void JZTableViewRowActionPatchEntry(void) &#123;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        @autoreleasepool &#123;</span><br><span class="line"></span><br><span class="line">            if (objc_getClass(&quot;UITableViewRowAction&quot;)) &#123;</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            Class *tableViewRowActionClassLocation = NULL;</span><br><span class="line">            </span><br><span class="line">#if TARGET_CPU_ARM</span><br><span class="line">            __asm(&quot;movw %0, :lower16:(_OBJC_CLASS_UITableViewRowAction-(LPC0+4))\n&quot;</span><br><span class="line">                  &quot;movt %0, :upper16:(_OBJC_CLASS_UITableViewRowAction-(LPC0+4))\n&quot;</span><br><span class="line">                  &quot;LPC0: add %0, pc&quot; : &quot;=r&quot;(tableViewRowActionClassLocation));</span><br><span class="line">#elif TARGET_CPU_ARM64</span><br><span class="line">            __asm(&quot;adrp %0, L_OBJC_CLASS_UITableViewRowAction@PAGE\n&quot;</span><br><span class="line">                  &quot;add  %0, %0, L_OBJC_CLASS_UITableViewRowAction@PAGEOFF&quot; : &quot;=r&quot;(tableViewRowActionClassLocation));</span><br><span class="line">#elif TARGET_CPU_X86_64</span><br><span class="line">            __asm(&quot;leaq L_OBJC_CLASS_UITableViewRowAction(%%rip), %0&quot; : &quot;=r&quot;(tableViewRowActionClassLocation));</span><br><span class="line">#elif TARGET_CPU_X86</span><br><span class="line">            void *pc = NULL;</span><br><span class="line">            __asm(&quot;calll L0\n&quot;</span><br><span class="line">                  &quot;L0: popl %0\n&quot;</span><br><span class="line">                  &quot;leal _OBJC_CLASS_UITableViewRowAction-L0(%0), %1&quot; : &quot;=r&quot;(pc), &quot;=r&quot;(tableViewRowActionClassLocation));</span><br><span class="line">#else</span><br><span class="line">#error Unsupported CPU</span><br><span class="line">#endif</span><br><span class="line">            </span><br><span class="line">            if (tableViewRowActionClassLocation &amp;&amp; !*tableViewRowActionClassLocation) &#123;</span><br><span class="line">                Class class = objc_allocateClassPair(JZTableViewRowAction.class, &quot;UITableViewRowAction&quot;, 0);</span><br><span class="line">                if (class) &#123;</span><br><span class="line">                    objc_registerClassPair(class);</span><br><span class="line">                    *tableViewRowActionClassLocation = class;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先别看这些#if #elif之类的东西，<strong>attribute</strong>((constructor)) static void JZTableViewRowActionPatchEntry(void)这玩意儿是一个函数，涉及到 <strong>attribute</strong>((constructor))，这个修饰符的特点在于它修饰的函数会在main函数之前执行，就是各种类已经load完毕，runtime环境也有了，但是main函数还没执行，嗯，完美时机。然后下面的#if #elif #else的意义在于不同架构的CPU指令集不同，需要不同的处理。它们干的事情都是把前面从数据段拿出来的那个_OBJC_CLASS_UITableViewRowAction的值赋给tableViewRowActionClassLocation。然后，#endif之后，干了这件事情：<br><code>Class class = objc_allocateClassPair(JZTableViewRowAction.class, &quot;UITableViewRowAction&quot;, 0);</code><br>创建一个<code>UITableViewRowAction</code>类，继承于<code>JZTableViewRowAction</code>，而这个<code>JZTableViewRowAction</code>本来就是从新版本拿来的<code>UITableViewRowAction</code>，所以就能给人在iOS8之前的系统正常使用<code>UITableViewRowAction</code>的体验。</p>
+<h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><p>理论上来说，上述方式应该可以解决大多数这种版本之间的兼容问题，乖乖地看一遍上面Github仓库上对应项目的源码然后做对应的修改就可以了。下次出新类的时候可以照上面的套路做一个兼容旧版本的第三方库出来，据我观察几个比较常用的类的这种库star一般都有100+。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/03/JSPatch/" rel="prev" title="JSPatch调用/替换OC方法的原理">
+                JSPatch调用/替换OC方法的原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/june.jpg"
+               alt="六月虫" />
+          <p class="site-author-name" itemprop="name">六月虫</p>
+          <p class="site-description motion-element" itemprop="description">我的梦中情人，她是一个巨乳萝莉，我知道有一天，她会顶着重感冒、躺在床上打电话给我，我会跟她说：“多喝热水”。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#这玩意儿是啥"><span class="nav-number">1.</span> <span class="nav-text">这玩意儿是啥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前置条件"><span class="nav-number">2.</span> <span class="nav-text">前置条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当初看不懂的玩意儿"><span class="nav-number">3.</span> <span class="nav-text">当初看不懂的玩意儿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">4.</span> <span class="nav-text">扩展</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">六月虫</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
