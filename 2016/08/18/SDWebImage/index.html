@@ -57,16 +57,16 @@
 
 
 
-<meta name="description" content="前些天随便翻翻源码记的东西之SDWebimage下载图片一般用这个方法：1- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)prog">
+<meta name="description" content="下载图片一般用这个方法：1- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDW">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SDWebImage">
+<meta property="og:title" content="前些天随便翻翻源码记的东西之SDWebimage">
 <meta property="og:url" content="http://yoursite.com/2016/08/18/SDWebImage/index.html">
 <meta property="og:site_name" content="多喝热水">
-<meta property="og:description" content="前些天随便翻翻源码记的东西之SDWebimage下载图片一般用这个方法：1- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)prog">
-<meta property="og:updated_time" content="2016-08-18T04:48:09.000Z">
+<meta property="og:description" content="下载图片一般用这个方法：1- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDW">
+<meta property="og:updated_time" content="2016-08-18T06:07:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SDWebImage">
-<meta name="twitter:description" content="前些天随便翻翻源码记的东西之SDWebimage下载图片一般用这个方法：1- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)prog">
+<meta name="twitter:title" content="前些天随便翻翻源码记的东西之SDWebimage">
+<meta name="twitter:description" content="下载图片一般用这个方法：1- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDW">
 
 
 
@@ -84,7 +84,7 @@
   };
 </script>
 
-  <title> SDWebImage | 多喝热水 </title>
+  <title> 前些天随便翻翻源码记的东西之SDWebimage | 多喝热水 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -204,7 +204,7 @@
             
             
               
-                SDWebImage
+                前些天随便翻翻源码记的东西之SDWebimage
               
             
           </h1>
@@ -243,7 +243,7 @@
       
 
       
-        <h3 id="前些天随便翻翻源码记的东西之SDWebimage"><a href="#前些天随便翻翻源码记的东西之SDWebimage" class="headerlink" title="前些天随便翻翻源码记的东西之SDWebimage"></a>前些天随便翻翻源码记的东西之SDWebimage</h3><p>下载图片一般用这个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock；</span><br></pre></td></tr></table></figure></p>
+        <p>下载图片一般用这个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock；</span><br></pre></td></tr></table></figure></p>
 <p>函数的内部过程：<br>1.取消正在下载的操作<br>2.把URL和VIEW关联起来<br>3.用placeholder占用掉这个view<br>4.调<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url</span><br><span class="line">                                         options:(SDWebImageOptions)options</span><br><span class="line">                                        progress:(SDWebImageDownloaderProgressBlock)progressBlock</span><br><span class="line">                                       completed:(SDWebImageCompletionWithFinishedBlock)completedBlock</span><br></pre></td></tr></table></figure></p>
 <p>这个方法来执行下载图片</p>
 <a id="more"></a>
@@ -287,8 +287,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/08/18/AFN/" rel="prev" title="AFN">
-                AFN <i class="fa fa-chevron-right"></i>
+              <a href="/2016/08/18/AFN/" rel="prev" title="这些天随便翻翻源码记的东西之AFNetworking">
+                这些天随便翻翻源码记的东西之AFNetworking <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -391,7 +391,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前些天随便翻翻源码记的东西之SDWebimage"><span class="nav-number">1.</span> <span class="nav-text">前些天随便翻翻源码记的东西之SDWebimage</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>

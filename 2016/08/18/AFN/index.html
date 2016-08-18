@@ -57,16 +57,16 @@
 
 
 
-<meta name="description" content="这些天随便翻翻源码记的东西之AFNetworkingAFNetworkReachabilityManager:用于监听各种网络的连接是否正常。首先，看看.h文件，他给了什么东西给我们玩枚举：1234AFNetworkReachabilityStatusUnknown          = -1，	未知网络AFNetworkReachabilityStatusNotReachable     = 0">
+<meta name="description" content="AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。首先，看看.h文件，他给了什么东西给我们玩枚举：1234AFNetworkReachabilityStatusUnknown          = -1，	未知网络AFNetworkReachabilityStatusNotReachable     = 0,	无法连接到网络AFNetworkReachabi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AFN">
+<meta property="og:title" content="这些天随便翻翻源码记的东西之AFNetworking">
 <meta property="og:url" content="http://yoursite.com/2016/08/18/AFN/index.html">
 <meta property="og:site_name" content="多喝热水">
-<meta property="og:description" content="这些天随便翻翻源码记的东西之AFNetworkingAFNetworkReachabilityManager:用于监听各种网络的连接是否正常。首先，看看.h文件，他给了什么东西给我们玩枚举：1234AFNetworkReachabilityStatusUnknown          = -1，	未知网络AFNetworkReachabilityStatusNotReachable     = 0">
-<meta property="og:updated_time" content="2016-08-18T05:44:38.000Z">
+<meta property="og:description" content="AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。首先，看看.h文件，他给了什么东西给我们玩枚举：1234AFNetworkReachabilityStatusUnknown          = -1，	未知网络AFNetworkReachabilityStatusNotReachable     = 0,	无法连接到网络AFNetworkReachabi">
+<meta property="og:updated_time" content="2016-08-18T06:08:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AFN">
-<meta name="twitter:description" content="这些天随便翻翻源码记的东西之AFNetworkingAFNetworkReachabilityManager:用于监听各种网络的连接是否正常。首先，看看.h文件，他给了什么东西给我们玩枚举：1234AFNetworkReachabilityStatusUnknown          = -1，	未知网络AFNetworkReachabilityStatusNotReachable     = 0">
+<meta name="twitter:title" content="这些天随便翻翻源码记的东西之AFNetworking">
+<meta name="twitter:description" content="AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。首先，看看.h文件，他给了什么东西给我们玩枚举：1234AFNetworkReachabilityStatusUnknown          = -1，	未知网络AFNetworkReachabilityStatusNotReachable     = 0,	无法连接到网络AFNetworkReachabi">
 
 
 
@@ -84,7 +84,7 @@
   };
 </script>
 
-  <title> AFN | 多喝热水 </title>
+  <title> 这些天随便翻翻源码记的东西之AFNetworking | 多喝热水 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -204,7 +204,7 @@
             
             
               
-                AFN
+                这些天随便翻翻源码记的东西之AFNetworking
               
             
           </h1>
@@ -243,18 +243,17 @@
       
 
       
-        <h1 id="这些天随便翻翻源码记的东西之AFNetworking"><a href="#这些天随便翻翻源码记的东西之AFNetworking" class="headerlink" title="这些天随便翻翻源码记的东西之AFNetworking"></a>这些天随便翻翻源码记的东西之AFNetworking</h1><h2 id="AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。"><a href="#AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。" class="headerlink" title="AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。"></a>AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。</h2><h3 id="首先，看看-h文件，他给了什么东西给我们玩"><a href="#首先，看看-h文件，他给了什么东西给我们玩" class="headerlink" title="首先，看看.h文件，他给了什么东西给我们玩"></a>首先，看看.h文件，他给了什么东西给我们玩</h3><p>枚举：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AFNetworkReachabilityStatusUnknown          = -1，	未知网络</span><br><span class="line">AFNetworkReachabilityStatusNotReachable     = 0,	无法连接到网络</span><br><span class="line">AFNetworkReachabilityStatusReachableViaWWAN = 1,	手机网络</span><br><span class="line">AFNetworkReachabilityStatusReachableViaWiFi = 2,	Wi-Fi网络</span><br></pre></td></tr></table></figure></p>
+        <h2 id="AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。"><a href="#AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。" class="headerlink" title="AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。"></a>AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。</h2><p>首先，看看.h文件，他给了什么东西给我们玩<br>枚举：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AFNetworkReachabilityStatusUnknown          = -1，	未知网络</span><br><span class="line">AFNetworkReachabilityStatusNotReachable     = 0,	无法连接到网络</span><br><span class="line">AFNetworkReachabilityStatusReachableViaWWAN = 1,	手机网络</span><br><span class="line">AFNetworkReachabilityStatusReachableViaWiFi = 2,	Wi-Fi网络</span><br></pre></td></tr></table></figure></p>
 <p>属性：<br>AFNetworkReachabilityStatus<br>上面的枚举<br>reachable<br>reachableViaWWAN<br>reachableViaWiFi<br>枚举的后三种情况是否正在连接中，readOnly，不许你乱改骗人<br><a id="more"></a><br>类方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+ (instancetype)sharedManager;</span><br><span class="line">创建单例的监听器，保存下面那个方法创建的实例</span><br><span class="line">+ (instancetype)manager;</span><br><span class="line">创建监听器</span><br><span class="line">+ (instancetype)managerForDomain:(NSString *)domain;</span><br><span class="line">创建监听器，用一个域名来评估网络可用性</span><br><span class="line">+ (instancetype)managerForAddress:(const void *)address;</span><br><span class="line">创建监听器，用一个socket地址来评估网络可用性</span><br></pre></td></tr></table></figure></p>
 <p>对象方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (instancetype)initWithReachability:(SCNetworkReachabilityRef)reachability NS_DESIGNATED_INITIALIZER;</span><br><span class="line">根据SCNetworkReachabilityRef对象初始化一个监听器，这个名字长长的东西就是一个网络监测工具</span><br><span class="line">- (void)startMonitoring;</span><br><span class="line">开始监听</span><br><span class="line">- (void)stopMonitoring;</span><br><span class="line">停止监听</span><br><span class="line">- (NSString *)localizedNetworkReachabilityStatusString;</span><br><span class="line">返回本地网络是否可达的字符串</span><br><span class="line">- (void)setReachabilityStatusChangeBlock:(nullable void (^)(AFNetworkReachabilityStatus status))block;</span><br><span class="line">设置网络变化时执行的block</span><br></pre></td></tr></table></figure></p>
-<h3 id="然后开始看看-m文件里的东西"><a href="#然后开始看看-m文件里的东西" class="headerlink" title="然后开始看看.m文件里的东西"></a>然后开始看看.m文件里的东西</h3><p>首先，那几个类方法，也就是创建监听器的方法，都是依赖SCNetworkReachabilityRef对象实现监听<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr *)address);</span><br><span class="line">SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, [domain UTF8String]);</span><br></pre></td></tr></table></figure></p>
+<p>然后开始看看.m文件里的东西<br>首先，那几个类方法，也就是创建监听器的方法，都是依赖SCNetworkReachabilityRef对象实现监听<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr *)address);</span><br><span class="line">SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, [domain UTF8String]);</span><br></pre></td></tr></table></figure></p>
 <p>然后，对象方法，除了startMonitoring其他都一两行代码而已，没什么意思，就略过了</p>
 <ul>
 <li>(void)startMonitoring {<br>首先，开始要先确定关闭，stopMonitoring<br>然后，设置callback的block，创建结构体context，设置网络变化调用的block，加入到runloop中<br>最后，异步线程，监听到网络变化时发个通知<br>}</li>
 </ul>
 <h2 id="AFSecurityPolicy-HTTPS请求时的证书验证。"><a href="#AFSecurityPolicy-HTTPS请求时的证书验证。" class="headerlink" title="AFSecurityPolicy:HTTPS请求时的证书验证。"></a>AFSecurityPolicy:HTTPS请求时的证书验证。</h2><p>首先，HTTPS就是在HTTP上又加上一层处理加密信息的模块，实现服务端与客户端的信息传输都通过TLS加密的功能。<br>具体过程：<br>1.客户端发起HTTPS请求，连接到服务端的443端口。<br>2.服务器把公钥发给客户端。服务器要有一套HTTPS的数字证书，其实就是一对公钥和私钥，可以自己制作or申请。区别是申请的证书不用客户端验证，而自己颁发的证书需要客户端验证通过才能继续。<br>3.服务器把公钥发给客户端。<br>4.客户端解析证书，由TLS完成，验证公钥是否有效，无效时提示HTTPS异常，有效时生成一个随机值，用公钥对这个随机值进行加密，把加密后的结果发给服务端。<br>5.服务端用私钥解析这个随机值，用这个值来对发送内容进行对称加密，把加密后的内容发给客户端。<br>6.这个值是客户端生成的，客户端知道这个值，也可以解密服务端发过来的数据。</p>
 <p>对称加密&amp;非对称加密：<br>对称加密，例如客户端生成的那个随机值，也就是密钥，加密解密都是用这个私钥，因此需要保护好这个私钥，不然信息被截取之后信息就全被解密了。<br>非对称加密，例如客户端把它生成的密钥发给服务器的过程，有公钥和私钥，私钥一直在服务端，没有被发出来，公钥被截取也没有对应的私钥来解密数据，比较安全，但是加密解密慢。<br>一般的处理方式就像上面描述的HTTPS加密过程一样，用对称加密来传送消息，用非对称加密来发送对称加密的密钥。</p>
-<p>在app的开发中一般把公钥直接放在沙盒里，HTTPS请求时直接把服务器返回的公钥跟本地的对比来验证。<br>SSLPinning:唯一指定了服务器的身份，通过自己的方式验证服务器，决定通信是否继续</p>
-<h1 id="完毕，接下来照着-h文件说"><a href="#完毕，接下来照着-h文件说" class="headerlink" title="完毕，接下来照着.h文件说:"></a>完毕，接下来照着.h文件说:</h1><p>属性:<br>枚举<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AFSSLPinningModeNone,	不做SSLPinning，若证书是信任机构颁发的就会通过，服务器自己生成的拒绝。</span><br><span class="line">AFSSLPinningModePublicKey,	客户端要有服务端的证书拷贝，只验证公钥，不验证有效期等信息</span><br><span class="line">AFSSLPinningModeCertificate,	客户端要有幅度端的证书拷贝，先验证证书的有效期等信息，再验证和本地证书是否一致</span><br></pre></td></tr></table></figure></p>
+<p>在app的开发中一般把公钥直接放在沙盒里，HTTPS请求时直接把服务器返回的公钥跟本地的对比来验证。<br>SSLPinning:唯一指定了服务器的身份，通过自己的方式验证服务器，决定通信是否继续<br>完毕，接下来照着.h文件说:<br>属性:<br>枚举<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AFSSLPinningModeNone,	不做SSLPinning，若证书是信任机构颁发的就会通过，服务器自己生成的拒绝。</span><br><span class="line">AFSSLPinningModePublicKey,	客户端要有服务端的证书拷贝，只验证公钥，不验证有效期等信息</span><br><span class="line">AFSSLPinningModeCertificate,	客户端要有幅度端的证书拷贝，先验证证书的有效期等信息，再验证和本地证书是否一致</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@property (readonly, nonatomic, assign) AFSSLPinningMode SSLPinningMode;</span><br><span class="line">上面的枚举</span><br><span class="line">@property (nonatomic, strong, nullable) NSSet &lt;NSData *&gt; *pinnedCertificates;</span><br><span class="line">根据验证模式来返回用于验证服务器的证书</span><br><span class="line">@property (nonatomic, assign) BOOL allowInvalidCertificates;</span><br><span class="line">是否允许不信任的证书通过，默认NO</span><br><span class="line">@property (nonatomic, assign) BOOL validatesDomainName;</span><br><span class="line">是否验证证书的CN字段，默认YES</span><br></pre></td></tr></table></figure>
 <p>方法:</p>
 <ul>
@@ -266,7 +265,7 @@
 <ul>
 <li>(BOOL)evaluateServerTrust:(SecTrustRef)serverTrust<br>forDomain:(nullable NSString *)domain;<br>判断HTTPS请求的证书验证是否通过，这个类最长的方法。过程：<br>1.验证下各种参数是否冲突<br>2.需要验证域名时，要增加一个验证域名的策略<br>3.设置验证策略<br>4.SSLPinningMode为None的时候，若allowInvalidCertificates为YES，任何证书都能通过，若为NO，判断此服务器证书是否为系统信任的证书。不是None的时候，若allowInvalidCertificates为NO，且不是系统信任的证书，就返回NO。<br>5.switch，AFSSLPinningModeCertificate，设置本地证书为根证书，将服务器证书和根证书比较，其中一个相同就返回YES。AFSSLPinningModePublicKey，比较本地证书和服务器证书的公钥，其中一个相同久返回YES。</li>
 </ul>
-<h2 id="AFURLRequestSerialization-请求的序列化，用于完成请求的设置，构建请求。"><a href="#AFURLRequestSerialization-请求的序列化，用于完成请求的设置，构建请求。" class="headerlink" title="AFURLRequestSerialization:请求的序列化，用于完成请求的设置，构建请求。"></a>AFURLRequestSerialization:请求的序列化，用于完成请求的设置，构建请求。</h2><p>#继续照着.h文件说</p>
+<h2 id="AFURLRequestSerialization-请求的序列化，用于完成请求的设置，构建请求。"><a href="#AFURLRequestSerialization-请求的序列化，用于完成请求的设置，构建请求。" class="headerlink" title="AFURLRequestSerialization:请求的序列化，用于完成请求的设置，构建请求。"></a>AFURLRequestSerialization:请求的序列化，用于完成请求的设置，构建请求。</h2><p>继续照着.h文件说</p>
 <p>AFHTTPRequestSerializer:<br>请求头相关的:<br>属性：<br>stringEncoding;<br>参数的字符串编码，默认UTF8<br>allowsCellularAccess;<br>是否允许通过手机网络发送请求<br>cachePolicy;<br>缓存策略<br>HTTPShouldHandleCookies;<br>创建请求时是否使用默认的cookie处理，默认YES<br>HTTPShouldUsePipelining;<br>是否在接受上个请求返回的数据前继续发送请求，默认NO<br>networkServiceType;<br>服务器类型，默认NSURLNetworkServiceTypeDefault<br>timeoutInterval;<br>超时时长<br>HTTPRequestHeaders<br>设置HTTP头的信息，默认包括accept-language和user-agent<br>方法：</p>
 <ul>
 <li>(instancetype)serializer;<br>创建一个默认配置的序列器,设置编码、语言、userAgent一类的东西</li>
@@ -338,8 +337,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/18/SDWebImage/" rel="next" title="SDWebImage">
-                <i class="fa fa-chevron-left"></i> SDWebImage
+              <a href="/2016/08/18/SDWebImage/" rel="next" title="前些天随便翻翻源码记的东西之SDWebimage">
+                <i class="fa fa-chevron-left"></i> 前些天随便翻翻源码记的东西之SDWebimage
               </a>
             
           </div>
@@ -446,7 +445,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#这些天随便翻翻源码记的东西之AFNetworking"><span class="nav-number">1.</span> <span class="nav-text">这些天随便翻翻源码记的东西之AFNetworking</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。"><span class="nav-number">1.1.</span> <span class="nav-text">AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#首先，看看-h文件，他给了什么东西给我们玩"><span class="nav-number">1.1.1.</span> <span class="nav-text">首先，看看.h文件，他给了什么东西给我们玩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#然后开始看看-m文件里的东西"><span class="nav-number">1.1.2.</span> <span class="nav-text">然后开始看看.m文件里的东西</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFSecurityPolicy-HTTPS请求时的证书验证。"><span class="nav-number">1.2.</span> <span class="nav-text">AFSecurityPolicy:HTTPS请求时的证书验证。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#完毕，接下来照着-h文件说"><span class="nav-number">2.</span> <span class="nav-text">完毕，接下来照着.h文件说:</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AFURLRequestSerialization-请求的序列化，用于完成请求的设置，构建请求。"><span class="nav-number">2.1.</span> <span class="nav-text">AFURLRequestSerialization:请求的序列化，用于完成请求的设置，构建请求。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFURLResponseSerialization-响应的序列化，解析网络请求回来的数据，转成相应的对象。"><span class="nav-number">2.2.</span> <span class="nav-text">AFURLResponseSerialization:响应的序列化，解析网络请求回来的数据，转成相应的对象。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFURLSessionManager-根据NSURLSessionConfiguration对象生成NSURLSession对象，对它进行管理。"><span class="nav-number">2.3.</span> <span class="nav-text">AFURLSessionManager:根据NSURLSessionConfiguration对象生成NSURLSession对象，对它进行管理。</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。"><span class="nav-number">1.</span> <span class="nav-text">AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFSecurityPolicy-HTTPS请求时的证书验证。"><span class="nav-number">2.</span> <span class="nav-text">AFSecurityPolicy:HTTPS请求时的证书验证。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFURLRequestSerialization-请求的序列化，用于完成请求的设置，构建请求。"><span class="nav-number">3.</span> <span class="nav-text">AFURLRequestSerialization:请求的序列化，用于完成请求的设置，构建请求。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFURLResponseSerialization-响应的序列化，解析网络请求回来的数据，转成相应的对象。"><span class="nav-number">4.</span> <span class="nav-text">AFURLResponseSerialization:响应的序列化，解析网络请求回来的数据，转成相应的对象。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFURLSessionManager-根据NSURLSessionConfiguration对象生成NSURLSession对象，对它进行管理。"><span class="nav-number">5.</span> <span class="nav-text">AFURLSessionManager:根据NSURLSessionConfiguration对象生成NSURLSession对象，对它进行管理。</span></a></li></ol></div>
             
           </div>
         </section>

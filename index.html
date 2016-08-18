@@ -207,7 +207,7 @@
               
                 
                 <a class="post-title-link" href="/2016/08/18/AFN/" itemprop="url">
-                  AFN
+                  这些天随便翻翻源码记的东西之AFNetworking
                 </a>
               
             
@@ -248,7 +248,7 @@
 
       
         
-          <h1 id="这些天随便翻翻源码记的东西之AFNetworking"><a href="#这些天随便翻翻源码记的东西之AFNetworking" class="headerlink" title="这些天随便翻翻源码记的东西之AFNetworking"></a>这些天随便翻翻源码记的东西之AFNetworking</h1><h2 id="AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。"><a href="#AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。" class="headerlink" title="AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。"></a>AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。</h2><h3 id="首先，看看-h文件，他给了什么东西给我们玩"><a href="#首先，看看-h文件，他给了什么东西给我们玩" class="headerlink" title="首先，看看.h文件，他给了什么东西给我们玩"></a>首先，看看.h文件，他给了什么东西给我们玩</h3><p>枚举：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AFNetworkReachabilityStatusUnknown          = -1，	未知网络</span><br><span class="line">AFNetworkReachabilityStatusNotReachable     = 0,	无法连接到网络</span><br><span class="line">AFNetworkReachabilityStatusReachableViaWWAN = 1,	手机网络</span><br><span class="line">AFNetworkReachabilityStatusReachableViaWiFi = 2,	Wi-Fi网络</span><br></pre></td></tr></table></figure></p>
+          <h2 id="AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。"><a href="#AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。" class="headerlink" title="AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。"></a>AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。</h2><p>首先，看看.h文件，他给了什么东西给我们玩<br>枚举：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AFNetworkReachabilityStatusUnknown          = -1，	未知网络</span><br><span class="line">AFNetworkReachabilityStatusNotReachable     = 0,	无法连接到网络</span><br><span class="line">AFNetworkReachabilityStatusReachableViaWWAN = 1,	手机网络</span><br><span class="line">AFNetworkReachabilityStatusReachableViaWiFi = 2,	Wi-Fi网络</span><br></pre></td></tr></table></figure></p>
 <p>属性：<br>AFNetworkReachabilityStatus<br>上面的枚举<br>reachable<br>reachableViaWWAN<br>reachableViaWiFi<br>枚举的后三种情况是否正在连接中，readOnly，不许你乱改骗人<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/08/18/AFN/#more" rel="contents">
@@ -303,7 +303,7 @@
               
                 
                 <a class="post-title-link" href="/2016/08/18/SDWebImage/" itemprop="url">
-                  SDWebImage
+                  前些天随便翻翻源码记的东西之SDWebimage
                 </a>
               
             
@@ -344,7 +344,7 @@
 
       
         
-          <h3 id="前些天随便翻翻源码记的东西之SDWebimage"><a href="#前些天随便翻翻源码记的东西之SDWebimage" class="headerlink" title="前些天随便翻翻源码记的东西之SDWebimage"></a>前些天随便翻翻源码记的东西之SDWebimage</h3><p>下载图片一般用这个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock；</span><br></pre></td></tr></table></figure></p>
+          <p>下载图片一般用这个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock；</span><br></pre></td></tr></table></figure></p>
 <p>函数的内部过程：<br>1.取消正在下载的操作<br>2.把URL和VIEW关联起来<br>3.用placeholder占用掉这个view<br>4.调<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url</span><br><span class="line">                                         options:(SDWebImageOptions)options</span><br><span class="line">                                        progress:(SDWebImageDownloaderProgressBlock)progressBlock</span><br><span class="line">                                       completed:(SDWebImageCompletionWithFinishedBlock)completedBlock</span><br></pre></td></tr></table></figure></p>
 <p>这个方法来执行下载图片</p>
           <div class="post-more-link text-center">
