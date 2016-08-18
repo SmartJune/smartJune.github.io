@@ -206,6 +206,111 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/18/SDWebImage/" itemprop="url">
+                  SDWebImage
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-18T12:40:48+08:00" content="2016-08-18">
+              2016-08-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前些天随便翻翻源码记的东西之SDWebimage"><a href="#前些天随便翻翻源码记的东西之SDWebimage" class="headerlink" title="前些天随便翻翻源码记的东西之SDWebimage"></a>前些天随便翻翻源码记的东西之SDWebimage</h3><p>下载图片一般用这个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock；</span><br></pre></td></tr></table></figure></p>
+<p>函数的内部过程：<br>1.取消正在下载的操作<br>2.把URL和VIEW关联起来<br>3.用placeholder占用掉这个view<br>4.调<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url</span><br><span class="line">                                         options:(SDWebImageOptions)options</span><br><span class="line">                                        progress:(SDWebImageDownloaderProgressBlock)progressBlock</span><br><span class="line">                                       completed:(SDWebImageCompletionWithFinishedBlock)completedBlock</span><br></pre></td></tr></table></figure></p>
+<p>这个方法来执行下载图片</p>
+<p>&lt;!—more—&gt;</p>
+<p>所以要去看看SDWebImageManager类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@property (strong, nonatomic, readonly) SDImageCache *imageCache;	图片的缓存</span><br><span class="line">@property (strong, nonatomic, readonly) SDWebImageDownloader *imageDownloader;	从网络下载图片</span><br><span class="line">@property (nonatomic, copy) SDWebImageCacheKeyFilterBlock cacheKeyFilter;	缓存键过滤器，把URL作为缓存的key的时候执行的block</span><br><span class="line"></span><br><span class="line">- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url</span><br><span class="line">                                         options:(SDWebImageOptions)options</span><br><span class="line">                                        progress:(SDWebImageDownloaderProgressBlock)progressBlock</span><br><span class="line">                                       completed:(SDWebImageCompletionWithFinishedBlock)completedBlock</span><br></pre></td></tr></table></figure></p>
+<p>1.根据传入的URL获取cacheKey<br>2.根据key去imageCache中寻找图片，找不到或者选用的是SDWebImageRefreshCached，就从网络下载，如果找到了图片但是选用的是SDWebImageRefreshCached，通知获得了图片，然后再次从网络下载，更新NSURLCache.<br>3.设置下载选项，调imageDownloader的downloadImageWithURL:options:progress:completed:方法，<br>4.避开了各种失败的if else之后，调用了storeImage:recalculateFromImage:imageData:forKey:toDisk方法存储到cache中，然后主线程返回<br>5.如果在cache中找到了图片，就没有进去2那个if，直接返回</p>
+<p>然后就看看那个下载函数是在干嘛了，在SDWebImageDownloader里，跟前面一个一样，command+鼠标跳转一直还是跳到SDWebImageManager里，害我想了两分钟。。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url options:(SDWebImageDownloaderOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageDownloaderCompletedBlock)completedBlock</span><br></pre></td></tr></table></figure></p>
+<p>1.设置request的一些参数<br>2.创建一个operation来负责图片下载的工作</p>
+<p>然后再看看这个operation里的内容，也就是一个SDWebImageDownloaderOperation，继承自NSOperation，看看start方法</p>
+<ul>
+<li>(void)start<br>1.开启后台下载<br>2.设置session，根据session和request创建dataTask。执行task，发出开始的通知<br>然后在这个类的代理方法里完成接受数据的拼接，再转为对应的图片，通过completionBlock存储到imageCache中</li>
+</ul>
+<p>接下来就看SDImageCache类了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (id)init</span><br><span class="line">监听通知，当收到内存警告的时候，删掉所有的缓存</span><br><span class="line">- (NSOperation *)queryDiskCacheForKey:(NSString *)key done:(SDWebImageQueryCompletedBlock)doneBlock</span><br><span class="line">查询缓存中是否有对应的图片。先在内存中找，找不到的话去硬盘找，找到之后写一份到内存上，再返回图片</span><br><span class="line">- (NSString *)cachedFileNameForKey:(NSString *)key </span><br><span class="line">根据传入的key进行MD5获得的值作为文件名</span><br><span class="line">- (void)cleanDiskWithCompletionBlock:(SDWebImageNoParamsBlock)completionBlock </span><br><span class="line">清除硬盘中的缓存图片，在程序进入后台或者退出的时候调用，当缓存文件超过了设置的最大缓存量的时候，删除最旧的文件，一直删到当前缓存的文件量小于最大缓存量的一半。</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/04/18/long-term-refactoring/" itemprop="url">
                   通过增量式改造来替换组件
                 </a>
@@ -611,7 +716,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

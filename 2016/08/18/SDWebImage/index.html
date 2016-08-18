@@ -57,19 +57,16 @@
 
 
 
-<meta name="description" content="JSPatch是啥JSPatch是一个实现了用JS调用/替换OC方法乃至类来实现hotfix的开源项目。
-JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/替换OC方法乃至类，上面说JSpatch是用JS调用/替换OC方法，而没有提到swift。因为swift默认取消了OC的动态性，所以暂时还没swift什么事儿。">
+<meta name="description" content="前些天随便翻翻源码记的东西之SDWebimage下载图片一般用这个方法：1- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)prog">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JSPatch调用/替换OC方法的原理">
-<meta property="og:url" content="http://yoursite.com/2016/04/03/JSPatch/index.html">
+<meta property="og:title" content="SDWebImage">
+<meta property="og:url" content="http://yoursite.com/2016/08/18/SDWebImage/index.html">
 <meta property="og:site_name" content="多喝热水">
-<meta property="og:description" content="JSPatch是啥JSPatch是一个实现了用JS调用/替换OC方法乃至类来实现hotfix的开源项目。
-JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/替换OC方法乃至类，上面说JSpatch是用JS调用/替换OC方法，而没有提到swift。因为swift默认取消了OC的动态性，所以暂时还没swift什么事儿。">
-<meta property="og:updated_time" content="2016-04-09T01:35:18.000Z">
+<meta property="og:description" content="前些天随便翻翻源码记的东西之SDWebimage下载图片一般用这个方法：1- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)prog">
+<meta property="og:updated_time" content="2016-08-18T04:46:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JSPatch调用/替换OC方法的原理">
-<meta name="twitter:description" content="JSPatch是啥JSPatch是一个实现了用JS调用/替换OC方法乃至类来实现hotfix的开源项目。
-JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/替换OC方法乃至类，上面说JSpatch是用JS调用/替换OC方法，而没有提到swift。因为swift默认取消了OC的动态性，所以暂时还没swift什么事儿。">
+<meta name="twitter:title" content="SDWebImage">
+<meta name="twitter:description" content="前些天随便翻翻源码记的东西之SDWebimage下载图片一般用这个方法：1- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)prog">
 
 
 
@@ -87,7 +84,7 @@ JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/�
   };
 </script>
 
-  <title> JSPatch调用/替换OC方法的原理 | 多喝热水 </title>
+  <title> SDWebImage | 多喝热水 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -207,7 +204,7 @@ JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/�
             
             
               
-                JSPatch调用/替换OC方法的原理
+                SDWebImage
               
             
           </h1>
@@ -219,8 +216,8 @@ JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-03T20:04:38+08:00" content="2016-04-03">
-              2016-04-03
+            <time itemprop="dateCreated" datetime="2016-08-18T12:40:48+08:00" content="2016-08-18">
+              2016-08-18
             </time>
           </span>
 
@@ -246,32 +243,19 @@ JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/�
       
 
       
-        <h3 id="JSPatch是啥"><a href="#JSPatch是啥" class="headerlink" title="JSPatch是啥"></a>JSPatch是啥</h3><p>JSPatch是一个实现了用JS调用/替换OC方法乃至类来实现hotfix的开源项目。</p>
-<p>JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/替换OC方法乃至类，上面说JSpatch是用JS调用/替换OC方法，而没有提到swift。因为swift默认取消了OC的动态性，所以暂时还没swift什么事儿。</p>
-<a id="more"></a>
-<h3 id="调用方法"><a href="#调用方法" class="headerlink" title="调用方法"></a>调用方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">require(&apos;Bug&apos;)</span><br><span class="line">var june = Bug.alloc().init()</span><br><span class="line">june.setAge(16)</span><br><span class="line">june.setGirlFriend(require(&apos;Hand&apos;).rightHand())</span><br></pre></td></tr></table></figure>
-<p>上述JS代码创建了一个june然后调了setAge和setGirlFriend方法</p>
-<p><code>require(&#39;XXX&#39;)</code>:<br>在JS全局作用域上创建一个同名变量<code>XXX</code>，变量指向一个对象，对象有两个属性：</p>
-<ol>
-<li><code>__isCls</code>存一个布尔值</li>
-<li><code>__clsName</code>保存类名</li>
-</ol>
-<p>然后就出现第一个问题了：这个<code>XXX</code>变量指向的对象只有<code>__isCls</code>和<code>__clsName</code>，所以<code>Bug</code>不认识<code>alloc().init()</code>,<code>Hand</code>不认识<code>rightHand()</code>，这样子直接就抛异常了。</p>
-<p>不可行的解决方案：把require的类名传入OC，通过runtime找到这个类的所有方法，包括他爸爸他爷爷直到基类的全部方法，在JS这边为每个方法生成同名函数，函数内容是根据方法名再去OC调对应的方法。嗯，人家族谱上指不定有几千个方法，运气不好require了几个大家伙，内存就炸了。</p>
-<p>解决方案：执行JS脚本之前，先用正则表达式处理一下，把方法调用改成调用<code>__c()</code>函数，方法名作为<code>__c()</code>函数里的参数，在<code>__c()</code>里面把信息传给oc再调runtime的相应方法去执行并返回结果值。这样子只需要给JS对象的基类加一个<code>__c</code>就可以了。</p>
-<p>然后是第二个问题：<code>Bug</code>有<code>__isCls</code>可以证明身份然后知道类名方法名去<code>__c()</code>完成调用，那这个<code>june</code>怎么办？</p>
-<p>解决方案：这个对象OC是认识的，创建完后传给JS之前要先包装一下，做个一个<code>NSDictionary</code>再传回去给JS，一个<code>id obj</code>变成一个<code>{&quot;__obj&quot;:obj}</code>，然后执行的时候传给__c的时候就知道他是个实例对象了。</p>
-<p>现在已经把JS要干的事情传给OC了，OC这边就把JS传过来的东西转成要求的类型然后通过NSInvocation调用相应的方法再把返回值包装成对象传回给JS，调用方法这件事情的流程大概就这样了</p>
-<h3 id="替换方法"><a href="#替换方法" class="headerlink" title="替换方法"></a>替换方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">defineClass(&quot;Bug&quot;,&#123;</span><br><span class="line">	BugGroup_solveProblem:function(bugGroup,aProblem)&#123;</span><br><span class="line">		......</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>上述JS代码替换了类Bug中的<code>BugGroup:(BugGroup *)bugGroup solveProblem:(Problem *)aProblem</code>方法的实现</p>
-<p>前置知识：<br>根据Objective-c的消息转发机制，当调用了一个不存在的方法的时候，会逐层调用<code>resolveInstanceMethod</code> <code>forwardingTargetForSelector</code> <code>methodSignatureForSelector</code> <code>forwardInvocation</code> 等方法来进行消息转发，<code>forwardInvocation</code>方法会返回一个NSInvocation对象，保存了这个方法的selector名、参数以及返回值。</p>
-<p>实现原理：</p>
-<ol>
-<li>把要替换的方法指向一个不存在的全局IMP，这样子调用这个方法的时候就会一步一步走到<code>forwardInvocation</code>，通过返回的NSInvocation对象，获取要替换的方法的信息。</li>
-<li>在替换方法的类里增加两个方法<code>originXXX</code>和<code>newXXX</code>，originXXX指向要替换的IMP，newXXX指向我们新增加的实现。留着originXXX是为了让正常转发流程可以进行，只有我们替换的方法才走newXXX。</li>
-<li>重写<code>forwardInvocation</code>方法，在生成这个NSInvocation的时候重新从这个NSInvocation对象中把参数解析出来，把参数传给newXXX调用。这里的其中一种实现方式是用<code>method_swizzling</code>替换解析函数和<code>forwardInvocation</code>，然后在解析函数里调用<code>forwardInvocation</code>，就可以每次转发就获取到这个NSInvocation对象再判断走<code>originXXX</code>和<code>newXXX</code>了。</li>
-</ol>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><a href="https://github.com/bang590/JSPatch" target="_blank" rel="external">Github地址</a><br><a href="https://github.com/bang590/JSPatch/wiki/JSPatch-基础用法" target="_blank" rel="external">基础语法介绍</a><br><a href="http://jspatch.com" target="_blank" rel="external">官网</a></p>
+        <h3 id="前些天随便翻翻源码记的东西之SDWebimage"><a href="#前些天随便翻翻源码记的东西之SDWebimage" class="headerlink" title="前些天随便翻翻源码记的东西之SDWebimage"></a>前些天随便翻翻源码记的东西之SDWebimage</h3><p>下载图片一般用这个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock；</span><br></pre></td></tr></table></figure></p>
+<p>函数的内部过程：<br>1.取消正在下载的操作<br>2.把URL和VIEW关联起来<br>3.用placeholder占用掉这个view<br>4.调<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url</span><br><span class="line">                                         options:(SDWebImageOptions)options</span><br><span class="line">                                        progress:(SDWebImageDownloaderProgressBlock)progressBlock</span><br><span class="line">                                       completed:(SDWebImageCompletionWithFinishedBlock)completedBlock</span><br></pre></td></tr></table></figure></p>
+<p>这个方法来执行下载图片</p>
+<p>&lt;!—more—&gt;</p>
+<p>所以要去看看SDWebImageManager类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@property (strong, nonatomic, readonly) SDImageCache *imageCache;	图片的缓存</span><br><span class="line">@property (strong, nonatomic, readonly) SDWebImageDownloader *imageDownloader;	从网络下载图片</span><br><span class="line">@property (nonatomic, copy) SDWebImageCacheKeyFilterBlock cacheKeyFilter;	缓存键过滤器，把URL作为缓存的key的时候执行的block</span><br><span class="line"></span><br><span class="line">- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url</span><br><span class="line">                                         options:(SDWebImageOptions)options</span><br><span class="line">                                        progress:(SDWebImageDownloaderProgressBlock)progressBlock</span><br><span class="line">                                       completed:(SDWebImageCompletionWithFinishedBlock)completedBlock</span><br></pre></td></tr></table></figure></p>
+<p>1.根据传入的URL获取cacheKey<br>2.根据key去imageCache中寻找图片，找不到或者选用的是SDWebImageRefreshCached，就从网络下载，如果找到了图片但是选用的是SDWebImageRefreshCached，通知获得了图片，然后再次从网络下载，更新NSURLCache.<br>3.设置下载选项，调imageDownloader的downloadImageWithURL:options:progress:completed:方法，<br>4.避开了各种失败的if else之后，调用了storeImage:recalculateFromImage:imageData:forKey:toDisk方法存储到cache中，然后主线程返回<br>5.如果在cache中找到了图片，就没有进去2那个if，直接返回</p>
+<p>然后就看看那个下载函数是在干嘛了，在SDWebImageDownloader里，跟前面一个一样，command+鼠标跳转一直还是跳到SDWebImageManager里，害我想了两分钟。。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url options:(SDWebImageDownloaderOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageDownloaderCompletedBlock)completedBlock</span><br></pre></td></tr></table></figure></p>
+<p>1.设置request的一些参数<br>2.创建一个operation来负责图片下载的工作</p>
+<p>然后再看看这个operation里的内容，也就是一个SDWebImageDownloaderOperation，继承自NSOperation，看看start方法</p>
+<ul>
+<li>(void)start<br>1.开启后台下载<br>2.设置session，根据session和request创建dataTask。执行task，发出开始的通知<br>然后在这个类的代理方法里完成接受数据的拼接，再转为对应的图片，通过completionBlock存储到imageCache中</li>
+</ul>
+<p>接下来就看SDImageCache类了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (id)init</span><br><span class="line">监听通知，当收到内存警告的时候，删掉所有的缓存</span><br><span class="line">- (NSOperation *)queryDiskCacheForKey:(NSString *)key done:(SDWebImageQueryCompletedBlock)doneBlock</span><br><span class="line">查询缓存中是否有对应的图片。先在内存中找，找不到的话去硬盘找，找到之后写一份到内存上，再返回图片</span><br><span class="line">- (NSString *)cachedFileNameForKey:(NSString *)key </span><br><span class="line">根据传入的key进行MD5获得的值作为文件名</span><br><span class="line">- (void)cleanDiskWithCompletionBlock:(SDWebImageNoParamsBlock)completionBlock </span><br><span class="line">清除硬盘中的缓存图片，在程序进入后台或者退出的时候调用，当缓存文件超过了设置的最大缓存量的时候，删除最旧的文件，一直删到当前缓存的文件量小于最大缓存量的一半。</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -295,17 +279,13 @@ JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/03/method_swizzling/" rel="next" title="低版本系统调用高版本系统API">
-                <i class="fa fa-chevron-left"></i> 低版本系统调用高版本系统API
+              <a href="/2016/04/18/long-term-refactoring/" rel="next" title="通过增量式改造来替换组件">
+                <i class="fa fa-chevron-left"></i> 通过增量式改造来替换组件
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/09/TouchID/" rel="prev" title="TouchID多手指录同一个指纹">
-                TouchID多手指录同一个指纹 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -407,7 +387,7 @@ JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSPatch是啥"><span class="nav-number">1.</span> <span class="nav-text">JSPatch是啥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用方法"><span class="nav-number">2.</span> <span class="nav-text">调用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替换方法"><span class="nav-number">3.</span> <span class="nav-text">替换方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前些天随便翻翻源码记的东西之SDWebimage"><span class="nav-number">1.</span> <span class="nav-text">前些天随便翻翻源码记的东西之SDWebimage</span></a></li></ol></div>
             
           </div>
         </section>
