@@ -57,15 +57,16 @@
 
 
 
-<meta name="description" content="我的梦中情人，她是一个巨乳萝莉，我知道有一天，她会顶着重感冒、躺在床上打电话给我，我会跟她说：“多喝热水”。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="多喝热水">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="这些天随便翻翻源码记的东西之AFNetworkingAFNetworkReachabilityManager:用于监听各种网络的连接是否正常。首先，看看.h文件，他给了什么东西给我们玩枚举：1234AFNetworkReachabilityStatusUnknown          = -1，	未知网络AFNetworkReachabilityStatusNotReachable     = 0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AFN">
+<meta property="og:url" content="http://yoursite.com/2016/08/18/AFN/index.html">
 <meta property="og:site_name" content="多喝热水">
-<meta property="og:description" content="我的梦中情人，她是一个巨乳萝莉，我知道有一天，她会顶着重感冒、躺在床上打电话给我，我会跟她说：“多喝热水”。">
+<meta property="og:description" content="这些天随便翻翻源码记的东西之AFNetworkingAFNetworkReachabilityManager:用于监听各种网络的连接是否正常。首先，看看.h文件，他给了什么东西给我们玩枚举：1234AFNetworkReachabilityStatusUnknown          = -1，	未知网络AFNetworkReachabilityStatusNotReachable     = 0">
+<meta property="og:updated_time" content="2016-08-18T05:39:53.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="多喝热水">
-<meta name="twitter:description" content="我的梦中情人，她是一个巨乳萝莉，我知道有一天，她会顶着重感冒、躺在床上打电话给我，我会跟她说：“多喝热水”。">
+<meta name="twitter:title" content="AFN">
+<meta name="twitter:description" content="这些天随便翻翻源码记的东西之AFNetworkingAFNetworkReachabilityManager:用于监听各种网络的连接是否正常。首先，看看.h文件，他给了什么东西给我们玩枚举：1234AFNetworkReachabilityStatusUnknown          = -1，	未知网络AFNetworkReachabilityStatusNotReachable     = 0">
 
 
 
@@ -83,7 +84,7 @@
   };
 </script>
 
-  <title> 多喝热水 </title>
+  <title> AFN | 多喝热水 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -114,9 +115,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -183,9 +182,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -205,10 +204,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/08/18/AFN/" itemprop="url">
-                  AFN
-                </a>
+                AFN
               
             
           </h1>
@@ -247,9 +243,7 @@
       
 
       
-        
-          
-            <h3 id="这些天随便翻翻源码记的东西之AFNetworking"><a href="#这些天随便翻翻源码记的东西之AFNetworking" class="headerlink" title="这些天随便翻翻源码记的东西之AFNetworking"></a>这些天随便翻翻源码记的东西之AFNetworking</h3><h2 id="AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。"><a href="#AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。" class="headerlink" title="AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。"></a>AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。</h2><h1 id="首先，看看-h文件，他给了什么东西给我们玩"><a href="#首先，看看-h文件，他给了什么东西给我们玩" class="headerlink" title="首先，看看.h文件，他给了什么东西给我们玩"></a>首先，看看.h文件，他给了什么东西给我们玩</h1><p>枚举：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AFNetworkReachabilityStatusUnknown          = -1，	未知网络</span><br><span class="line">AFNetworkReachabilityStatusNotReachable     = 0,	无法连接到网络</span><br><span class="line">AFNetworkReachabilityStatusReachableViaWWAN = 1,	手机网络</span><br><span class="line">AFNetworkReachabilityStatusReachableViaWiFi = 2,	Wi-Fi网络</span><br></pre></td></tr></table></figure></p>
+        <h3 id="这些天随便翻翻源码记的东西之AFNetworking"><a href="#这些天随便翻翻源码记的东西之AFNetworking" class="headerlink" title="这些天随便翻翻源码记的东西之AFNetworking"></a>这些天随便翻翻源码记的东西之AFNetworking</h3><h2 id="AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。"><a href="#AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。" class="headerlink" title="AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。"></a>AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。</h2><h1 id="首先，看看-h文件，他给了什么东西给我们玩"><a href="#首先，看看-h文件，他给了什么东西给我们玩" class="headerlink" title="首先，看看.h文件，他给了什么东西给我们玩"></a>首先，看看.h文件，他给了什么东西给我们玩</h1><p>枚举：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AFNetworkReachabilityStatusUnknown          = -1，	未知网络</span><br><span class="line">AFNetworkReachabilityStatusNotReachable     = 0,	无法连接到网络</span><br><span class="line">AFNetworkReachabilityStatusReachableViaWWAN = 1,	手机网络</span><br><span class="line">AFNetworkReachabilityStatusReachableViaWiFi = 2,	Wi-Fi网络</span><br></pre></td></tr></table></figure></p>
 <p>属性：<br>AFNetworkReachabilityStatus<br>上面的枚举<br>reachable<br>reachableViaWWAN<br>reachableViaWiFi<br>枚举的后三种情况是否正在连接中，readOnly，不许你乱改骗人<br>类方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+ (instancetype)sharedManager;</span><br><span class="line">创建单例的监听器，保存下面那个方法创建的实例</span><br><span class="line">+ (instancetype)manager;</span><br><span class="line">创建监听器</span><br><span class="line">+ (instancetype)managerForDomain:(NSString *)domain;</span><br><span class="line">创建监听器，用一个域名来评估网络可用性</span><br><span class="line">+ (instancetype)managerForAddress:(const void *)address;</span><br><span class="line">创建监听器，用一个socket地址来评估网络可用性</span><br></pre></td></tr></table></figure></p>
 <p>对象方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (instancetype)initWithReachability:(SCNetworkReachabilityRef)reachability NS_DESIGNATED_INITIALIZER;</span><br><span class="line">根据SCNetworkReachabilityRef对象初始化一个监听器，这个名字长长的东西就是一个网络监测工具</span><br><span class="line">- (void)startMonitoring;</span><br><span class="line">开始监听</span><br><span class="line">- (void)stopMonitoring;</span><br><span class="line">停止监听</span><br><span class="line">- (NSString *)localizedNetworkReachabilityStatusString;</span><br><span class="line">返回本地网络是否可达的字符串</span><br><span class="line">- (void)setReachabilityStatusChangeBlock:(nullable void (^)(AFNetworkReachabilityStatus status))block;</span><br><span class="line">设置网络变化时执行的block</span><br></pre></td></tr></table></figure></p>
 <h1 id="然后开始看看-m文件里的东西"><a href="#然后开始看看-m文件里的东西" class="headerlink" title="然后开始看看.m文件里的东西"></a>然后开始看看.m文件里的东西</h1><p>首先，那几个类方法，也就是创建监听器的方法，都是依赖SCNetworkReachabilityRef对象实现监听<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr *)address);</span><br><span class="line">SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, [domain UTF8String]);</span><br></pre></td></tr></table></figure></p>
@@ -322,16 +316,18 @@
 <li>(void)setSessionDidReceiveAuthenticationChallengeBlock:(nullable NSURLSessionAuthChallengeDisposition (^)(NSURLSession <em>session, NSURLAuthenticationChallenge </em>challenge, NSURLCredential <em> _Nullable __autoreleasing </em> _Nullable credential))block;<br>设置当session接收到验证请求时的block操作<br>然后是taskDelegate\dataTaskDelegate\downloadTaskDelegate这三个的代理方法的实现，比较多，基本是设置监听到各种事件发生之后的回调block。</li>
 </ul>
 
-          
-        
       
     </div>
     
     <div>
       
+        
+      
     </div>
 
     <div>
+      
+        
       
     </div>
 
@@ -339,501 +335,32 @@
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/08/18/SDWebImage/" rel="next" title="SDWebImage">
+                <i class="fa fa-chevron-left"></i> SDWebImage
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2016/08/18/SDWebImage/" itemprop="url">
-                  SDWebImage
-                </a>
-              
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-18T12:40:48+08:00" content="2016-08-18">
-              2016-08-18
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h3 id="前些天随便翻翻源码记的东西之SDWebimage"><a href="#前些天随便翻翻源码记的东西之SDWebimage" class="headerlink" title="前些天随便翻翻源码记的东西之SDWebimage"></a>前些天随便翻翻源码记的东西之SDWebimage</h3><p>下载图片一般用这个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock；</span><br></pre></td></tr></table></figure></p>
-<p>函数的内部过程：<br>1.取消正在下载的操作<br>2.把URL和VIEW关联起来<br>3.用placeholder占用掉这个view<br>4.调<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url</span><br><span class="line">                                         options:(SDWebImageOptions)options</span><br><span class="line">                                        progress:(SDWebImageDownloaderProgressBlock)progressBlock</span><br><span class="line">                                       completed:(SDWebImageCompletionWithFinishedBlock)completedBlock</span><br></pre></td></tr></table></figure></p>
-<p>这个方法来执行下载图片</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/18/SDWebImage/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/18/long-term-refactoring/" itemprop="url">
-                  通过增量式改造来替换组件
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-18T13:01:27+08:00" content="2016-04-18">
-              2016-04-18
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>现在，有一份SDK的源代码，两批人，一批人负责新特性的开发，一批人负责替换旧代码的某个组件。新特性那边的开发需要用到被替换的组件。<br>限制条件：</p>
-<ol>
-<li>这些代码创建日期是12年的，各种老旧的写法且逻辑混乱且没有注释但是运行正常，彻底地重写需要耗费大量的时间。</li>
-<li>带新特性的SDK很快会被用到，替换期间不能影响新特性的开发，更不能影响到用户体验。</li>
-</ol>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/18/long-term-refactoring/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+    <div class="post-spread">
       
     </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/09/TouchID/" itemprop="url">
-                  TouchID多手指录同一个指纹
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-09T09:19:32+08:00" content="2016-04-09">
-              2016-04-09
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="破事水"><a href="#破事水" class="headerlink" title="破事水"></a>破事水</h3><p>昨晚和贡茶的时候跟Cyseria玩了一件很无聊的事情，录入一个TouchID的时候两个人轮换几根手指，虽然根据屏幕显示的内容，有些部位的指纹录入很多次才成功，但是最后还是成功完成了一个“混合版”的指纹。然后测试，由于这个混合版指纹的存在，两根没录入过的手指都能解锁我的手机。细思极恐。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/09/TouchID/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/03/JSPatch/" itemprop="url">
-                  JSPatch调用/替换OC方法的原理
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-03T20:04:38+08:00" content="2016-04-03">
-              2016-04-03
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="JSPatch是啥"><a href="#JSPatch是啥" class="headerlink" title="JSPatch是啥"></a>JSPatch是啥</h3><p>JSPatch是一个实现了用JS调用/替换OC方法乃至类来实现hotfix的开源项目。</p>
-<p>JSPatch是通过JS传递字符串给OC，OC通过runtime接口来实现调用/替换OC方法乃至类，上面说JSpatch是用JS调用/替换OC方法，而没有提到swift。因为swift默认取消了OC的动态性，所以暂时还没swift什么事儿。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/03/JSPatch/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/03/method_swizzling/" itemprop="url">
-                  低版本系统调用高版本系统API
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-03T20:03:40+08:00" content="2016-04-03">
-              2016-04-03
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="这玩意儿是啥"><a href="#这玩意儿是啥" class="headerlink" title="这玩意儿是啥"></a>这玩意儿是啥</h3><p>作为当时实习的第一个任务，我要替换掉一份代码中的实现侧滑功能的第三方库，然后那时候到处看的时候发现了这玩意儿：JZTableViewRowAction <a href="https://github.com/JazysYu/JZTableViewRowAction">Github地址</a> <a href="http://www.tuicool.com/articles/mAZZ7bV">推库的介绍文章</a> 官方侧滑API是iOS8引入的，而这个第三方库可以在iOS8之前使用，效果跟原生API的效果一样。然而当时时间并不是很多，而对这个第三方库的源代码中汇编部分的代码也不是很理解，出于安全方面的考虑没有应用到它，后面有空了之后才重新去了解了一下这块东西，因为觉得真的挺有意思的。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/03/method_swizzling/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -841,6 +368,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -860,8 +391,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/june.jpg"
@@ -899,6 +439,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#这些天随便翻翻源码记的东西之AFNetworking"><span class="nav-number">1.</span> <span class="nav-text">这些天随便翻翻源码记的东西之AFNetworking</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFNetworkReachabilityManager-用于监听各种网络的连接是否正常。"><span class="nav-number"></span> <span class="nav-text">AFNetworkReachabilityManager:用于监听各种网络的连接是否正常。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#首先，看看-h文件，他给了什么东西给我们玩"><span class="nav-number"></span> <span class="nav-text">首先，看看.h文件，他给了什么东西给我们玩</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#然后开始看看-m文件里的东西"><span class="nav-number"></span> <span class="nav-text">然后开始看看.m文件里的东西</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AFSecurityPolicy-HTTPS请求时的证书验证。"><span class="nav-number"></span> <span class="nav-text">AFSecurityPolicy:HTTPS请求时的证书验证。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#完毕，接下来照着-h文件说"><span class="nav-number"></span> <span class="nav-text">完毕，接下来照着.h文件说:</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AFURLRequestSerialization-请求的序列化，用于完成请求的设置，构建请求。"><span class="nav-number"></span> <span class="nav-text">AFURLRequestSerialization:请求的序列化，用于完成请求的设置，构建请求。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFURLResponseSerialization-响应的序列化，解析网络请求回来的数据，转成相应的对象。"><span class="nav-number"></span> <span class="nav-text">AFURLResponseSerialization:响应的序列化，解析网络请求回来的数据，转成相应的对象。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFURLSessionManager-根据NSURLSessionConfiguration对象生成NSURLSession对象，对它进行管理。"><span class="nav-number"></span> <span class="nav-text">AFURLSessionManager:根据NSURLSessionConfiguration对象生成NSURLSession对象，对它进行管理。</span></a></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -990,6 +541,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
 
   
 
